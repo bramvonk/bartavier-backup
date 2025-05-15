@@ -1,0 +1,38 @@
+name: Backup HTML Page
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:        # Allows manual run
+
+jobs:
+  fetch-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (required by Pages)
+        uses: actions/checkout@v4
+
+      - name: Fetch HTML
+        run: |
+          URL="https://bar.bramvonk.nl/backup-menu"
+          OUTPUT="latest.html"
+
+          status=$(curl -s -o "$OUTPUT" -w "%{http_code}" "$URL")
+
+          if [ "$status" -eq 200 ]; then
+            echo "Page fetched successfully."
+          else
+            echo "Non-200 response: $status"
+            exit 0
+          fi
+
+      - name: Commit & Push to gh-pages
+        run: |
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+          git fetch origin gh-pages
+          git checkout gh-pages || git checkout --orphan gh-pages
+          mv latest.html index.html
+          git add index.html
+          git commit -m "Update HTML backup" || echo "No changes"
+          git push origin gh-pages
