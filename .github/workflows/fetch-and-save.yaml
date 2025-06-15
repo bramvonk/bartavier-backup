@@ -37,5 +37,4 @@ jobs:
           git checkout gh-pages || git checkout --orphan gh-pages
           mv latest.html index.html
           git add index.html
-          git commit -m "Update HTML backup" || echo "No changes"
-          git push origin gh-pages
+          git commit -m "Update HTML backup" && git push origin gh-pages || echo "No changes"
