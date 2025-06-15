@@ -14,7 +14,7 @@ jobs:
 
       - name: Fetch HTML
         run: |
-          URL="https://bar.bramvonk.nl/backup-menu"
+          URL="https://batavier.bramvonk.nl/bartavier/backup-menu"
           OUTPUT="latest.html"
 
           status=$(curl -s -o "$OUTPUT" -w "%{http_code}" "$URL")
