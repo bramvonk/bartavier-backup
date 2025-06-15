@@ -23,7 +23,7 @@ jobs:
             echo "Page fetched successfully."
           else
             echo "Non-200 response: $status"
-            exit 0
+            exit 1
           fi
 
       - name: Commit & Push to gh-pages
