@@ -20,7 +20,8 @@ jobs:
           URL="https://batavier.bramvonk.nl/bartavier/backup-menu"
           OUTPUT="latest.html"
 
-          status=$(curl -s -o "$OUTPUT" -w "%{http_code}" "$URL")
+          # retry because sometimes we're just restarting our service or server, no need to fail the build then
+          status=$(curl --retry 10 --retry-delay 60 --retry-all-errors --silent --show-error --output "$OUTPUT" --write-out "%{response_code}" "$URL")
 
           if [ "$status" -eq 200 ]; then
             echo "Page fetched successfully."
