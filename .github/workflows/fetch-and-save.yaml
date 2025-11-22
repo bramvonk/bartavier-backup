@@ -2,7 +2,7 @@ name: Backup HTML Page
 
 on:
   schedule:
-    - cron: '0 * * * *'
+    - cron: '37 * * * *'
   workflow_dispatch:        # Allows manual run
   push:
     branches:
